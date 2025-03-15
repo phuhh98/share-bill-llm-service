@@ -5,7 +5,7 @@ REQS_FILE := requirements.txt
 
 # add package to require
 reqs-update:
-	pipreqs . --force
+	pip freeze > requirements.txt
 
 # install all packages from requirements.txt
 install:
