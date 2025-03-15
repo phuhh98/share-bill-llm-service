@@ -1,16 +1,21 @@
-from typing import Union
-from fastapi import APIRouter
-from app.services import item as item_service, root as root_service
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Header, status
+
+from app.dependencies import auth
+from app.dtos.responses import BaseResponse
+from app.services import firebase
+
+router = APIRouter()
 
 
-router = APIRouter(prefix="/root")
-
-@router.get("/")
-async def root():
-    return root_service.read_root()
-
-
-
-@router.get("/items/{item_id}")
-async def item(item_id: int, q: Union[str, None] = None):
-    return item_service.read_item(item_id, q)
+@router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+    response_model=BaseResponse,
+    dependencies=[Depends(auth.authenticate_user)],
+)
+async def healthCheck(authorization: Annotated[str, Header()]):
+    token = authorization.split("Bearer ")[1]
+    result = await firebase.verifyUserToken(token)
+    return BaseResponse(message="ok", status=status.HTTP_200_OK, data=result)

@@ -12,12 +12,14 @@ install:
 	pip install -r $(REQS_FILE)
 
 # run application with fastapi dev mode
+# uvicorn $(MAIN):app --reload
 run-dev:
-	uvicorn $(MAIN):app --reload
+	fastapi dev app/main.py
 
 # run application in production mode
+# uvicorn $(MAIN):app
 run-prod:
-	uvicorn $(MAIN):app
+	fastapi run app/main.py
 
 # start prod
 start:
@@ -27,6 +29,5 @@ start:
 test:
 	pytest
 
-# format all file using black
-format:
-	black .
+lint:
+	ruff check --fix .

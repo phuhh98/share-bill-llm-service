@@ -1,0 +1,11 @@
+[tool.ruff.lint]
+# Enable linting rules (e.g., unused imports, import sorting)
+select = ["F401", "I"]
+# Automatically fix issues when using --fix
+fixable = ["F401", "I"]
+
+# Sort imports according to PEP 8 conventions
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+known-first-party = ["app"]
