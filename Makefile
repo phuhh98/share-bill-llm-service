@@ -4,7 +4,7 @@ MAIN := app/main.py
 REQS_FILE := requirements.txt
 
 # add package to require
-add-package:
+reqs-update:
 	pipreqs . --force
 
 # install all packages from requirements.txt
