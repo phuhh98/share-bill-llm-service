@@ -1,5 +1,5 @@
 # assign variable for main.py path
-MAIN := app.main
+MAIN := app/main.py
 # assign variable for requirements.txt path
 REQS_FILE := requirements.txt
 
@@ -14,12 +14,12 @@ install:
 # run application with fastapi dev mode
 # uvicorn $(MAIN):app --reload
 run-dev:
-	fastapi dev app/main.py
+	fastapi dev $(MAIN)
 
 # run application in production mode
 # uvicorn $(MAIN):app
 run-prod:
-	fastapi run app/main.py
+	fastapi run $(MAIN)
 
 # start prod
 start:
