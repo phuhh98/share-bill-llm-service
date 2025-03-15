@@ -7,4 +7,4 @@ from ..prompts import receiptExtractor
 # This require two param on invoke: 
 # format_instructions : output Schema
 # mediaMessage: Message compose from MediaMesage Class
-chain = receiptExtractor.prompt | google.gemini | JsonOutputParser()
+chain = receiptExtractor.prompt | google.chatModel | JsonOutputParser()
