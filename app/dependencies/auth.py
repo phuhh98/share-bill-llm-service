@@ -3,7 +3,7 @@ from typing import Annotated, Union
 from fastapi import Header
 
 from app.dtos import exceptions
-from app.services import firebase
+from app.external_services import firebase
 
 
 async def authenticate_user(

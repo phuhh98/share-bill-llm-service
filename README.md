@@ -13,3 +13,10 @@ pip install -r requirements.txt
 fastapi dev src/main.py --reload
 
 ```
+
+## Required env variables
+
+```env
+ENVIRONMENT=        # dev | prod
+GEMINI_API_KEY=
+```

@@ -3,7 +3,7 @@ from typing import Callable
 from fastapi import Request
 
 from app.dtos import exceptions
-from app.services import firebase
+from app.external_services import firebase
 
 
 async def fireBaseUserTokenAuth(request: Request, call_next: Callable):

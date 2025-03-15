@@ -1,10 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Header, status
+from fastapi import APIRouter, Header, status
 
-from app.dependencies import auth
 from app.dtos.responses import BaseResponse
-from app.services import firebase
+from app.external_services import firebase
 
 router = APIRouter()
 
@@ -13,7 +12,6 @@ router = APIRouter()
     "/",
     status_code=status.HTTP_200_OK,
     response_model=BaseResponse,
-    dependencies=[Depends(auth.authenticate_user)],
 )
 async def healthCheck(authorization: Annotated[str, Header()]):
     token = authorization.split("Bearer ")[1]

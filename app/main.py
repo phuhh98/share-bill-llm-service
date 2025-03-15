@@ -1,13 +1,22 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from starlette.responses import JSONResponse
 
 from app.dtos.exceptions import AppException
 from app.dtos.responses import BaseResponse
-from app.routers import root
+from app.routers import llm, root
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
+if ENVIRONMENT == "dev":
+    load_dotenv()
+
 
 app = FastAPI()
 
 app.include_router(root.router)
+app.include_router(llm.router)
 
 
 @app.exception_handler(Exception)

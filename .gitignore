@@ -6,3 +6,6 @@ venv/
 logs/
 .vscode/
 firebase.keys.json
+.ruff_cache/
+.env
+.ipynb_checkpoints/
