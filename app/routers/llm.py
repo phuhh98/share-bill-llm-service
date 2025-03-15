@@ -49,7 +49,6 @@ async def receiptExtractorHanlder(subject: Annotated[str, Form()], files: list[U
             uploadResult = googleAI.client.files.upload(file=tmp_file_path, config={
                 "mime_type": file.content_type
             })
-            print(uploadResult)
             imageMeta.append(ImageMeta(url=str(uploadResult.uri), mime_type=str(file.content_type)))
             os.remove(tmp_file_path) # remove temp file
 
