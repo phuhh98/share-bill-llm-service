@@ -59,4 +59,4 @@ async def receiptExtractorHanlder(files: list[UploadFile]):
 # mediaMessage: Message compose from MediaMesage Class
     })
 
-    return BaseResponse(message="ok", status=status.HTTP_200_OK, data=result)
+    return BaseResponse(message="ok", status=status.HTTP_200_OK, data={"receipt": result})
