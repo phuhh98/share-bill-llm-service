@@ -36,7 +36,7 @@ async def travelAssistant(body: LLMQuestion):
     response_model=BaseResponse,
     dependencies=[Depends(auth.authenticate_user)],
 )
-async def receiptExtractorHanlder(subject: Annotated[str, Form()], files: list[UploadFile]):
+async def receiptExtractorHanlder(files: list[UploadFile]):
     # uploaded_files = [googleAI.uploadFile(file) for file in files]
     # define list for updateload files
     uploadedFiles: List[GoogleFile] = []
