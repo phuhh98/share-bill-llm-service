@@ -7,8 +7,16 @@ REQS_FILE := requirements.txt
 reqs-update:
 	pip freeze > requirements.txt
 
+# create venv
+venv-init:
+	python3 -m venv venv
+
+# activate venv
+venv-activate:
+	source venv/bin/activate
+
 # install all packages from requirements.txt
-install:
+install: venv-init
 	pip install -r $(REQS_FILE)
 
 # run application with fastapi dev mode
