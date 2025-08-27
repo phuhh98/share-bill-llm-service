@@ -2,12 +2,12 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 
 from app.dtos.exceptions import AppException
 from app.dtos.responses import BaseResponse
 from app.routers import llm, root
-from fastapi.middleware.cors import CORSMiddleware
 
 ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 if ENVIRONMENT == "dev":

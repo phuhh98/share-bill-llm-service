@@ -22,6 +22,7 @@ sysPrompt = SystemMessagePromptTemplate(prompt=PromptTemplate(template="""
         The list of item is here
         ------------------------------------------------
     There is only on list of items in an entire bill - counted the overlap if there is more than 1 image provided.
+    IMPORTANT: If you could not analyze the image or there is not image provided, return with a string "NO IMAGE" or "CAN NOT ANALYZE IMAGE"
 
   {format_instructions}
 

@@ -1,9 +1,9 @@
 
 import os
 import tempfile
-from typing import Annotated, List
+from typing import List
 
-from fastapi import APIRouter, Depends, Form, UploadFile, status
+from fastapi import APIRouter, Depends, UploadFile, status
 from google.genai.types import File as GoogleFile
 from pydantic import BaseModel
 
@@ -52,6 +52,7 @@ async def receiptExtractorHanlder(files: list[UploadFile]):
             imageMeta.append(ImageMeta(url=str(uploadResult.uri), mime_type=str(file.content_type)))
             os.remove(tmp_file_path) # remove temp file
 
+    print("imageMeta\n", imageMeta)
     mediaMessages = mediaMessagesCompose([ImageMeta(url=str(meta.url) , mime_type=str(meta.mime_type)) for meta in imageMeta])
     result = receiptExtractor.chain.invoke({
         "mediaMessage": mediaMessages 

@@ -1,3 +1,20 @@
+[project]
+name = "share-bill-llm-service"
+version = "0.1.0"
+description = "api service for sharebill"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.116.1",
+    "firebase-admin>=7.1.0",
+    "google>=3.0.0",
+    "google-genai>=1.31.0",
+    "langchain-core>=0.3.75",
+    "langchain-google-genai>=2.1.10",
+    "pydantic>=2.11.7",
+    "typing>=3.10.0.0",
+]
+
 [tool.ruff.lint]
 # Enable linting rules (e.g., unused imports, import sorting)
 select = ["F401", "I"]
@@ -9,3 +26,9 @@ fixable = ["F401", "I"]
 combine-as-imports = true
 force-sort-within-sections = true
 known-first-party = ["app"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "ruff>=0.12.10",
+]

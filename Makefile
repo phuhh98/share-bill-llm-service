@@ -1,23 +1,17 @@
 # assign variable for main.py path
 MAIN := app/main.py
-# assign variable for requirements.txt path
-REQS_FILE := requirements.txt
-
-# add package to require
-reqs-update:
-	pip freeze > requirements.txt
 
 # create venv
 venv-init:
-	python3 -m venv venv
+	uv venv
 
 # activate venv
 venv-activate:
-	source venv/bin/activate
+	source ./.venv/Scripts/activate
 
 # install all packages from requirements.txt
 install: venv-init
-	pip install -r $(REQS_FILE)
+	uv sync
 
 # run application with fastapi dev mode
 # uvicorn $(MAIN):app --reload
