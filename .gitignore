@@ -4,7 +4,6 @@ __pycache__/
 .venv/
 # logs
 logs/
-.vscode/
 firebase.keys.json
 .ruff_cache/
 .env

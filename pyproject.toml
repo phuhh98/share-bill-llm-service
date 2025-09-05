@@ -9,6 +9,7 @@ dependencies = [
     "firebase-admin>=7.1.0",
     "google>=3.0.0",
     "google-genai>=1.31.0",
+    "langchain>=0.3.27",
     "langchain-core>=0.3.75",
     "langchain-google-genai>=2.1.10",
     "pydantic>=2.11.7",

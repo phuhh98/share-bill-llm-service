@@ -15,8 +15,10 @@ from app.llm.prompts.receiptExtractor import ImageMeta, mediaMessagesCompose
 
 router = APIRouter(prefix="/llm")
 
+
 class LLMQuestion(BaseModel):
     question: str
+
 
 @router.post(
     "/travel-assistant",
@@ -29,7 +31,6 @@ async def travelAssistant(body: LLMQuestion):
     return BaseResponse(message="ok", status=status.HTTP_200_OK, data=result)
 
 
-
 @router.post(
     "/receipt-extractor",
     status_code=status.HTTP_200_OK,
@@ -40,7 +41,7 @@ async def receiptExtractorHanlder(files: list[UploadFile]):
     # uploaded_files = [googleAI.uploadFile(file) for file in files]
     # define list for updateload files
     uploadedFiles: List[GoogleFile] = []
-    imageMeta: List[ImageMeta] =[]
+    imageMeta: List[ImageMeta] = []
     for file in files:
         with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
             tmp_file_path = tmp_file.name
@@ -49,15 +50,16 @@ async def receiptExtractorHanlder(files: list[UploadFile]):
             uploadResult = googleAI.client.files.upload(file=tmp_file_path, config={
                 "mime_type": file.content_type
             })
-            imageMeta.append(ImageMeta(url=str(uploadResult.uri), mime_type=str(file.content_type)))
-            os.remove(tmp_file_path) # remove temp file
+            uploadedFiles.append(uploadResult)
+            imageMeta.append(ImageMeta(url=str(uploadResult.uri),
+                             mime_type=str(file.content_type)))
+            os.remove(tmp_file_path)  # remove temp file
 
     print("imageMeta\n", imageMeta)
-    mediaMessages = mediaMessagesCompose([ImageMeta(url=str(meta.url) , mime_type=str(meta.mime_type)) for meta in imageMeta])
+    mediaMessages = mediaMessagesCompose(
+        [ImageMeta(url=str(meta.url), mime_type=str(meta.mime_type)) for meta in imageMeta])
     result = receiptExtractor.chain.invoke({
-        "mediaMessage": mediaMessages 
-# format_instructions : output Schema
-# mediaMessage: Message compose from MediaMesage Class
+        "mediaMessage": mediaMessages
     })
 
     return BaseResponse(message="ok", status=status.HTTP_200_OK, data={"receipt": result})
