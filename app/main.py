@@ -15,7 +15,27 @@ if ENVIRONMENT == "dev":
 
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "").split("|")
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "llm",
+        "description": "Endpoints for interacting with Large Language Models (LLMs) to perform various tasks such as text generation, summarization, translation, and more.",
+    },
+    {
+        "name": "root",
+        "description": "Basic health check endpoint to verify that the service is running.",
+    },
+]
+
+app = FastAPI(
+    title="Share Bill LLM Service",
+    description="A service to extract and analyze receipt data using LLM",
+    version="0.0.2",
+    contact={
+        "name": "Huynh Hoai Phu",
+        "email": "phuhh98@gmail.com",
+        "github": "https://github.com/phuhh98",
+    },
+)
 
 app.add_middleware(
     CORSMiddleware,

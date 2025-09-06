@@ -12,9 +12,24 @@ class BaseResponse(BaseModel):
     status: int
 
 
+class BadRequestResponse(BaseResponse):
+    data: None = None
+    error: dict
+    message: str
+    status: int = 400
+
+
+class UnauthorizedResponse(BaseResponse):
+    data: None = None
+    error: dict
+    message: str
+    status: int = 401
+
+
 class ReceiptData(BaseModel):
     receipt: ParsedReceipt
 
 
 class ReceiptSuccessResponse(BaseResponse):
     data: ReceiptData
+    status: int = 200

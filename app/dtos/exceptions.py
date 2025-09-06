@@ -20,6 +20,15 @@ class NotFoundException(AppException):
         )
 
 
+class BadRequestException(AppException):
+    def __init__(self, message: str, errorDetail: Any = None) -> None:
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            message=message,
+            errorDetail=errorDetail,
+        )
+
+
 class UnauthorizedException(AppException):
     def __init__(self, message: str, errorDetail: Any = None) -> None:
         super().__init__(
