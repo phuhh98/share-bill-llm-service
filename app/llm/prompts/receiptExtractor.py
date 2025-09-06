@@ -9,14 +9,13 @@ from langchain_core.prompts import (
 )
 from pydantic import BaseModel
 
-from ..outputSchemas.receiptExtractor import FormatInstructions
+from app.dtos.receipt import ParsedReceipt
 
 sysPrompt = SystemMessagePromptTemplate(
     prompt=PromptTemplate(
         input_variables=["format_instructions"],
         input_types={"format_instructions": str},
-        partial_variables={
-            "format_instructions": FormatInstructions.model_json_schema()},
+        partial_variables={"format_instructions": ParsedReceipt.model_json_schema()},
         template="""
   Your role: A cashier assistant
   Job: Analyze provided images of bill or receipt, return details of bill based on provided images, eliminate details that is overlapping in provided images.
@@ -31,7 +30,7 @@ sysPrompt = SystemMessagePromptTemplate(
     IMPORTANT: If you could not analyze the image or there is not image provided, return with a string "NO IMAGE" or "CAN NOT ANALYZE IMAGE"
     IMPORTANT: Only return the result in JSON format, do not include any other text, the original json schema or explanation outside of the JSON format.
     IMPORTANT: The JSON format must strictly follow the schema provided below, do not add any other fields or properties outside of the schema.
-    
+
     {format_instructions}
 
     If any item in items list has null value in its properties, ignore/drop from items list.
@@ -44,7 +43,9 @@ sysPrompt = SystemMessagePromptTemplate(
       + Each item's price_total should equal to the product of its quantity and price: price_total == quantity*price
       + The bill total_receipt_price from image should equal to sum of all price_total from items list: total_receipt_price = SUM price_total of every item in the list
       + product_count from the image should equal to the total item in items array in return: product_count === items Array total items
-"""))
+""",
+    )
+)
 
 
 """
@@ -52,33 +53,36 @@ This prompt is used in conjunction with OutputFixingParser to fix JSON output fr
 Reference: https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html#langchain.output_parsers.fix.OutputFixingParser.from_llm
 """
 ouptutFixingPrompt = PromptTemplate(
-    input_variables=['completion', 'error',
-                     'instructions', 'format_instructions'],
-    input_types={"completion": str, "error": str,
-                 "instructions": str, 'format_instructions': str},
-    partial_variables={
-        'format_instructions': FormatInstructions.model_json_schema()},
+    input_variables=["completion", "error", "instructions", "format_instructions"],
+    input_types={
+        "completion": str,
+        "error": str,
+        "instructions": str,
+        "format_instructions": str,
+    },
+    partial_variables={"format_instructions": ParsedReceipt.model_json_schema()},
     template="""
   Your role: A JSON fixer for the analysis of bill or receipt
   Job:  Fix the JSON in completion part to make it valid and compliant with the provided schema.
         Identify which part of the completion is the actual parsed of the bill or receipt.
         Remove unnecessary text that is not part of the bill or receipt, like the original json schema.
-  
+
   Original JSON schema:
   ----------
   {format_instructions}
   ----------
-  
+
   Completion:
   ----------
   {completion}
   ----------
-  
+
   Error:
   ----------
   {error}
   ----------
-""",)
+""",
+)
 
 
 class MediaMessage(BaseMessage):
@@ -97,9 +101,14 @@ class MediaMessage(BaseMessage):
         super().__init__(content=content, **kwargs)
 
 
-message = HumanMessage(content=[
-    {"type": "image_url", "image_url": "https://picsum.photos/seed/picsum/200/300", },
-])
+message = HumanMessage(
+    content=[
+        {
+            "type": "image_url",
+            "image_url": "https://picsum.photos/seed/picsum/200/300",
+        },
+    ]
+)
 
 
 class ImageMeta(BaseModel):
@@ -114,12 +123,12 @@ def mediaMessagesCompose(metas: List[ImageMeta]):
                 {
                     "type": "media",
                     "file_uri": imageMeta.url,
-                    "mime_type": imageMeta.mime_type
+                    "mime_type": imageMeta.mime_type,
                 }
-            ]) for imageMeta in metas]
+            ]
+        )
+        for imageMeta in metas
+    ]
 
 
-prompt = ChatPromptTemplate(messages=[
-    sysPrompt,
-    MessagesPlaceholder("mediaMessage")
-])
+prompt = ChatPromptTemplate(messages=[sysPrompt, MessagesPlaceholder("mediaMessage")])

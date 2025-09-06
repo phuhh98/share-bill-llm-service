@@ -1,9 +1,9 @@
-
 from langchain.output_parsers import OutputFixingParser
 from langchain_core.output_parsers import PydanticOutputParser
 
+from app.dtos.receipt import ParsedReceipt
+
 from ..models import google
-from ..outputSchemas.receiptExtractor import FormatInstructions
 from ..prompts import receiptExtractor
 
 """
@@ -12,7 +12,7 @@ Refs:  https://python.langchain.com/docs/how_to/output_parser_fixing/
        https://python.langchain.com/api_reference/langchain/output_parsers/langchain.output_parsers.fix.OutputFixingParser.html#
 """
 parserWithFixing = OutputFixingParser.from_llm(
-    parser=PydanticOutputParser(pydantic_object=FormatInstructions),
+    parser=PydanticOutputParser(pydantic_object=ParsedReceipt),
     llm=google.generationModel,
     prompt=receiptExtractor.ouptutFixingPrompt,
     max_retries=2,
