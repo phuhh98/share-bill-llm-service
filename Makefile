@@ -41,6 +41,12 @@ lint:
 jupyterlab:
 	jupyter lab
 
+test:
+	pytest
+
+test-cov:
+	pytest --cov=app --cov-report html
+
 help:
 	@echo "Makefile commands:"
 	@echo "  venv-init        		Create a virtual environment"
@@ -53,4 +59,6 @@ help:
 	@echo "  test             		Run tests using pytest"
 	@echo "  lint             		Check and fix code style issues using ruff"
 	@echo "  jupyterlab      		Start Jupyter Lab"
+	@echo "  test					Start run test"
+	@echo "  test-cov				Start run test with coverage"
 	@echo "  help             		Display this help message"

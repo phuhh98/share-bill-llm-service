@@ -28,6 +28,17 @@ combine-as-imports = true
 force-sort-within-sections = true
 known-first-party = ["app"]
 
+[tool.coverage.run]
+branch = true
+source = ["app"]
+omit = [
+    "app/*/__test__/*",
+    "*/__init__.py"
+]
+
+[tool.coverage.html]
+directory = ".coverage_html_report"
+
 [dependency-groups]
 dev = [
     "jupyter-lsp>=2.3.0",
@@ -35,6 +46,7 @@ dev = [
     "jupyterlab-lsp>=5.2.0",
     "pre-commit>=4.3.0",
     "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
     "python-lsp-server>=1.13.1",
     "ruff>=0.12.10",
 ]
