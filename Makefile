@@ -38,6 +38,9 @@ test:
 lint:
 	ruff check --fix .
 
+jupyterlab:
+	jupyter lab
+
 help:
 	@echo "Makefile commands:"
 	@echo "  venv-init        		Create a virtual environment"
@@ -49,4 +52,5 @@ help:
 	@echo "  start            		Install dependencies and run application in production mode"
 	@echo "  test             		Run tests using pytest"
 	@echo "  lint             		Check and fix code style issues using ruff"
+	@echo "  jupyterlab      		Start Jupyter Lab"
 	@echo "  help             		Display this help message"

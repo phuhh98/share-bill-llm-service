@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, File, UploadFile, status
 from google.genai.types import File as GoogleFile
 
 from app.dependencies import auth, fileUpload
+from app.dtos.receipt import ParsedReceipt
 from app.dtos.responses import (
     BadRequestResponse,
     BaseResponse,
@@ -22,6 +23,7 @@ router = APIRouter(prefix="/llm")
 ALLOWED_MIME_TYPES = [
     "image/png",
     "image/jpg",
+    "image/jpeg",
     "image/webp",
     "image/heic",
     "image/heif",
@@ -75,7 +77,8 @@ async def receiptExtractorHanlder(
             for meta in imageMeta
         ]
     )
-    result = receiptExtractor.chain.invoke({"mediaMessage": mediaMessages})
+    result = await receiptExtractor.chain.ainvoke({"mediaMessage": mediaMessages})
+    assert isinstance(result, ParsedReceipt)
 
     return BaseResponse(
         message="ok", status=status.HTTP_200_OK, data={"receipt": result}

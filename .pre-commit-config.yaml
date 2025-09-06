@@ -3,15 +3,19 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^notebooks/
       - id: end-of-file-fixer
+        exclude: ^notebooks/
       - id: check-yaml
+        exclude: ^notebooks/
       - id: check-added-large-files
+        exclude: ^notebooks/
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.12
     hooks:
       - id: ruff-check
         args:
           - --fix
-        files: "^app/"
+        files: ^app/
       - id: ruff-format
-        files: "^app/"
+        files: ^app/
