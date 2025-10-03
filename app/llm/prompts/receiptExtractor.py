@@ -29,7 +29,7 @@ sysPrompt = SystemMessagePromptTemplate(
     There is only on list of items in an entire bill - counted the overlap if there is more than 1 image provided.
     IMPORTANT: If you could not analyze the image or there is not image provided, return with a string "NO IMAGE" or "CAN NOT ANALYZE IMAGE"
     IMPORTANT: Only return the result in JSON format, do not include any other text, the original json schema or explanation outside of the JSON format.
-    IMPORTANT: The JSON format must strictly follow the schema provided below, do not add any other fields or properties outside of the schema.
+    IMPORTANT: The JSON format must strictly follow the schema provided below, do not add any other fields or properties outside of the schema. JSON should use double quotes for keys and string values.
 
     {format_instructions}
 
@@ -66,7 +66,8 @@ ouptutFixingPrompt = PromptTemplate(
   Job:  Fix the JSON in completion part to make it valid and compliant with the provided schema.
         Identify which part of the completion is the actual parsed of the bill or receipt.
         Remove unnecessary text that is not part of the bill or receipt, like the original json schema.
-
+  IMPORTANT: JSON should use double quotes for keys and string values.
+  
   Original JSON schema:
   ----------
   {format_instructions}
