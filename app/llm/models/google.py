@@ -1,21 +1,18 @@
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAI
-from pydantic import SecretStr
 
-from app.external_services.googleAI import (
-    GEMINI_API_KEY,
-    GEMINI_MAX_OUTPUT_TOKEN,
-    GEMINI_MODEL_NAME,
-)
+from app.external_services.googleAI import geminiModelSettings
 
 chatModel = ChatGoogleGenerativeAI(
-    model=GEMINI_MODEL_NAME,
-    api_key=SecretStr(GEMINI_API_KEY),
-    temperature=0,
-    max_tokens=GEMINI_MAX_OUTPUT_TOKEN,
+    model=geminiModelSettings.model_name,
+    api_key=geminiModelSettings.api_key,
+    temperature=geminiModelSettings.model_temp,
+    max_tokens=geminiModelSettings.max_output_token,
 )
 generationModel = GoogleGenerativeAI(
-    model=GEMINI_MODEL_NAME,
-    api_key=SecretStr(GEMINI_API_KEY),
-    temperature=0,
-    max_tokens=GEMINI_MAX_OUTPUT_TOKEN,
+    model=geminiModelSettings.model_name,
+    api_key=geminiModelSettings.api_key,
+    temperature=geminiModelSettings.model_temp,
+    max_tokens=geminiModelSettings.max_output_token,
+    thinking_budget=geminiModelSettings.thinking_budget,
+    include_thoughts=geminiModelSettings.enable_thinking,
 )

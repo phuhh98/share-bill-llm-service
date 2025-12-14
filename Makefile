@@ -41,9 +41,6 @@ lint:
 jupyterlab:
 	jupyter lab
 
-test:
-	pytest
-
 test-cov:
 	pytest --cov=app --cov-report html
 
@@ -56,9 +53,8 @@ help:
 	@echo "  run-dev          		Run application in development mode with auto-reload"
 	@echo "  run-prod         		Run application in production mode"
 	@echo "  start            		Install dependencies and run application in production mode"
-	@echo "  test             		Run tests using pytest"
+	@echo "  test             		Run tests using pytest
 	@echo "  lint             		Check and fix code style issues using ruff"
 	@echo "  jupyterlab      		Start Jupyter Lab"
-	@echo "  test					Start run test"
 	@echo "  test-cov				Start run test with coverage"
 	@echo "  help             		Display this help message"
