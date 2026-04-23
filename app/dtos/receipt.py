@@ -1,5 +1,5 @@
 import datetime
-from typing import List, Union
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -25,8 +25,9 @@ class ParsedReceipt(BaseModel):
       """
     )
     product_count: int = Field(description="Number of unique product from the bill")
-    receipt_date: datetime.date = Field(
-        description="The issued date of the bill or receipt in ISO 8601 format"
+    receipt_date: Optional[datetime.date] = Field(
+        default=None,
+        description="The issued date of the bill or receipt in ISO 8601 format. Allow null when not available.",
     )
     total_receipt_price: float = Field(
         description="The bill total price after discount"

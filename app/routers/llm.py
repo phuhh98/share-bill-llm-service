@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import os
 import tempfile
 from typing import Annotated, List
@@ -111,6 +112,9 @@ async def receiptExtractorHanlder(
 
         result = await receiptExtractor.chain.ainvoke({"mediaMessage": mediaMessages})
         assert isinstance(result, ParsedReceipt)
+
+        if result.receipt_date is None:
+            result = result.model_copy(update={"receipt_date": datetime.date.today()})
 
         return BaseResponse(
             message="ok", status=status.HTTP_200_OK, data={"receipt": result}
